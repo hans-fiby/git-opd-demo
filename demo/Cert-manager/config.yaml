@@ -1,4 +1,0 @@
-repoURL: https://charts.jetstack.io
-targetRevision: 1.15.3
-chart: cert-manager
-serverSideApply: true
