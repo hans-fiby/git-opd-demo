@@ -1,0 +1,4 @@
+repoURL: https://github.com/cert-manager/cert-manager
+targetRevision: 3.2.7
+chart: cert-manager
+serverSideApply: true
