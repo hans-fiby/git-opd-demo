@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/hans-fiby/git-opd-demo.git
+        revision: main
+        files:
+          - path: demo/**/config.yaml
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: default
+      sources:
+      - repoURL: '{{ repoURL }}'
+        targetRevision: '{{ targetRevision }}'
+        chart: '{{ chart }}'
+        helm:
+          valueFiles:
+          - $values/demo/{{ path.basename }}/values.yaml
+      - repoURL: https://github.com/hans-fiby/git-opd-demo.git
+        targetRevision: main
+        path: demo/{{ path.basename }}
+      - repoURL: https://github.com/hans-fiby/git-opd-demo.git
+        targetRevision: main
+        ref: values
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated: 
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply={{ serverSideApply }}
