@@ -1,0 +1,4 @@
+repoURL: https://headlamp-k8s.github.io/headlamp/
+targetRevision: 0.25.0
+chart: headlamp
+serverSideApply: true
